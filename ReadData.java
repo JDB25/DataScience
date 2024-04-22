@@ -96,20 +96,21 @@ public void scatter(){
     double[] xData = getRating();
     double[] yData = getSugar();
     
-    chart.addSeries("Rating Vs Sugar", yData, xData);
+    chart.addSeries("Sugar Vs Rating", xData, yData);
     new SwingWrapper<XYChart>(chart).displayChart();
-
-    
-
-
-
-
 
 
 
   
 }
 
+public void plotLines(){
+  double[] xData = getRating();
+    double[] yData = getSugar();
+    XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
+    new SwingWrapper(chart).displayChart();
+
+}
 
 
 
@@ -127,6 +128,6 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-        r.scatter();
+        r.plotLines();
     }
 }
