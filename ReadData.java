@@ -112,6 +112,53 @@ public void plotLines(){
 
 }
 
+    public double avgData(double[] data){
+        return 0.0;
+    }
+
+    // + value --> direct relationship
+    // - value --> indirect relationship
+    // 0 --> no relationship
+    // Summation((x-xMean)(y-yMean))/(N-1)
+    public double covariance(double[] xData, double[] yData){
+        return 0.0;
+    }
+    
+    
+    public double getMin(double[] data){
+        return 0.0;
+    }
+
+    public double getMax(double[] data){
+        return 0.0;
+    }
+    
+
+    public void scatter_and_regression(double[] line_attr){
+    }
+
+    public double average(double[] data){
+        return 0.0;
+    }
+
+    public double stdDev(double[] data){
+        return 0.0;
+    }
+
+    // Covariance/(Std-x)(Std-y)
+    public double correlation(double[] xData, double[] yData){
+return 0.0;
+    }
+
+    public double[] linear_regression(double[] xData, double[] yData){
+        //y = B * x + A
+        //B = correlation_coeff * (Sy/Sx)
+        //A = meanY-(B*meanX)
+        //return new double[]{B, A};
+        return null;
+
+    }
+
 
 
 
