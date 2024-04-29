@@ -155,15 +155,21 @@ public void plotLines(){
     }
 
     public double stdDev(double[] data){
-        return 0.0;
+      double value =0;
+      for (int i = 0; i < data.length; i++) {
+        value+=data[i]-avgData(data);
+      }
+        return Math.sqrt(Math.pow(value, 2)/data.length);
     }
 
     // Covariance/(Std-x)(Std-y)
     public double correlation(double[] xData, double[] yData){
-return 0.0;
+      return covariance(xData, yData)/((stdDev(xData)*stdDev(yData)));
+
     }
 
     public double[] linear_regression(double[] xData, double[] yData){
+
         //y = B * x + A
         //B = correlation_coeff * (Sy/Sx)
         //A = meanY-(B*meanX)
