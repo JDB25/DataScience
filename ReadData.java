@@ -188,6 +188,6 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-        r.covariance(getRating(), getSugar());
+        System.out.println(r.covariance(r.getRating(), r.getSugar()));
     }
 }
