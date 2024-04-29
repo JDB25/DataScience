@@ -62,7 +62,7 @@ public class ReadData {
         //
         return SvR;
         }
-        public double[] getSugar(){
+public double[] getSugar(){
           double[] sugar = new double[77];
           double[][] main = format();
           
@@ -72,7 +72,7 @@ public class ReadData {
           return sugar;
 
         }
-        public double[] getRating(){
+public double[] getRating(){
           double[] rating = new double[77];
           double[][] main = format();
           
@@ -113,7 +113,15 @@ public void plotLines(){
 }
 
     public double avgData(double[] data){
-        return 0.0;
+      double temp=0;
+      
+      for (int i = 0; i < data.length; i++) {
+        temp+=data[i];
+
+      }  
+    
+
+      return temp/data.length;
     }
 
     // + value --> direct relationship
@@ -121,7 +129,12 @@ public void plotLines(){
     // 0 --> no relationship
     // Summation((x-xMean)(y-yMean))/(N-1)
     public double covariance(double[] xData, double[] yData){
-        return 0.0;
+      double summation=0;
+       for (int i = 0; i < yData.length; i++) {
+        summation+=((xData[i]-avgData(xData))*(yData[i]-avgData(yData)));}
+      
+      
+      return summation/(xData.length-1);
     }
     
     
@@ -175,6 +188,6 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-        r.plotLines();
+        r.covariance(getRating(), getSugar());
     }
 }
