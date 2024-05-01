@@ -8,6 +8,7 @@ import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.*;
+import org.knowm.xchart.CategorySeries.CategorySeriesRenderStyle;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
@@ -111,6 +112,13 @@ public void plotLines(){
     new SwingWrapper(chart).displayChart();
 
 }
+public void plotLSRL(){
+  double[] xData = fubChart(getRating());
+    double[] yData = linear_regression(getRating(), getSugar());
+    XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
+    new SwingWrapper(chart).displayChart();
+
+}
 
     public double avgData(double[] data){
       double temp=0;
@@ -168,15 +176,40 @@ public void plotLines(){
 
     }
 
+public double[] fubChart(double[] yData){
+  double[] fub = new double[yData.length];
+  for (int i = 0; i < fub.length; i++) {
+    fub[i]=i;
+    
+  }
+  return fub;
+}
+
     public double[] linear_regression(double[] xData, double[] yData){
-
-        //y = B * x + A
-        //B = correlation_coeff * (Sy/Sx)
-        //A = meanY-(B*meanX)
-        //return new double[]{B, A};
-        return null;
-
+      double[] temp;
+      temp = new double[yData.length];
+      for (int i = 0; i < yData.length; i++) {
+        double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
+        double A = avgData(yData)-(B*average(xData));
+        temp[i] = B * i + A;
+      }
+        return temp;
     }
+  public CategoryChart stickChart(){
+    CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Stick").build();
+    chart.getStyler().setChartTitleVisible(true);
+    chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
+    chart.getStyler().setDefaultSeriesRenderStyle(CategorySeriesRenderStyle.Stick);
+
+       double[] xData = getRating();
+    double[] yData = getSugar();
+    
+    
+    chart.addSeries("Sugar vs Rating", xData, yData);
+    return chart;
+
+
+  }
 
 
 
@@ -194,6 +227,9 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-        System.out.println(r.covariance(r.getRating(), r.getSugar()));
+        r.plotLSRL();
+        r.scatter();
+        //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
+
     }
 }
