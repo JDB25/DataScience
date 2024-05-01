@@ -100,6 +100,8 @@ public void scatter(){
     chart.addSeries("Sugar Vs Rating", xData, yData);
     new SwingWrapper<XYChart>(chart).displayChart();
 
+  
+
 
 
   
@@ -112,8 +114,17 @@ public void plotLines(){
     new SwingWrapper(chart).displayChart();
 
 }
-public void plotLSRL(){
-  double[] xData = fubChart(getRating());
+public void plotLSRL(double[][] Data){
+double[] yData;
+double[] xData;
+for (int i = 0; i < Data.length; i++) {
+  xData[i] = Data[i][0];
+  yData[i] = Data[i][1];
+  
+}
+
+
+
     double[] yData = linear_regression(getRating(), getSugar());
     XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
     new SwingWrapper(chart).displayChart();
@@ -176,24 +187,23 @@ public void plotLSRL(){
 
     }
 
-public double[] fubChart(double[] yData){
-  double[] fub = new double[yData.length];
-  for (int i = 0; i < fub.length; i++) {
-    fub[i]=i;
-    
-  }
-  return fub;
-}
 
-    public double[] linear_regression(double[] xData, double[] yData){
-      double[] temp;
-      temp = new double[yData.length];
-      for (int i = 0; i < yData.length; i++) {
-        double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
+ 
+
+
+    public double[][] linear_regression(double[] xData, double[] yData){
+      double[][] xytemp;
+      
+      xytemp = new double[yData.length][2];
+      
+      double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
         double A = avgData(yData)-(B*average(xData));
-        temp[i] = B * i + A;
+        System.out.println(A);
+      for (int i = 0; i < yData.length; i++) {
+        xytemp[i][1] = B * i + A;
+        xytemp[i][0]=i;
       }
-        return temp;
+        return xytemp;
     }
   public CategoryChart stickChart(){
     CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Stick").build();
@@ -229,6 +239,7 @@ public void print(double[][] SvR){{
         ReadData r = new ReadData();
         
         r.scatter();
+        r.plotLSRL();
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
 
     }
