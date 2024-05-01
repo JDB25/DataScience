@@ -13,22 +13,22 @@ import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
  // Import the Scanner class to read text files
-public class ReadData {
-    public ReadData(){}
+public class ReadDataHeart {
+    public ReadDataHeart(){}
 
   
     public double[][] format(){
-      double[][] SvR = new double[77][2];
+      double[][] SvR = new double[299][2];
       int rowNum = 0;
       String temp = "";
 
         try {
-            File myObj = new File("cereal.csv");
+            File myObj = new File("heart_failure_clinical_records_dataset.csv");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
               String data = myReader.nextLine();
               temp = data;
-              for(int i = 0; i<9; i++){
+              for(int i = 0; i<2; i++){
                 temp = temp.substring(temp.indexOf(",")+1);
               }
               // System.out.println(temp.substring(0, temp.indexOf(",")));
@@ -38,10 +38,10 @@ public class ReadData {
 
              
               temp = data;
-              for(int i = 0; i<15; i++){
+              for(int i = 0; i<8; i++){
                 temp = temp.substring(temp.indexOf(",")+1);
               }
-             SvR[rowNum][1]=Double.parseDouble(temp);
+             SvR[rowNum][1]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
 
              //i\from index of 9th comma to index opfr 10th comma
              
@@ -64,7 +64,7 @@ public class ReadData {
         return SvR;
         }
 public double[] getSugar(){
-          double[] sugar = new double[77];
+          double[] sugar = new double[299];
           double[][] main = format();
           
           for (int index = 0; index < main.length; index++) {
@@ -74,7 +74,7 @@ public double[] getSugar(){
 
         }
 public double[] getRating(){
-          double[] rating = new double[77];
+          double[] rating = new double[299];
           double[][] main = format();
           
           for (int index = 0; index < main.length; index++) {
@@ -97,7 +97,7 @@ public void scatter(){
     double[] xData = getRating();
     double[] yData = getSugar();
     
-    chart.addSeries("Sugar Vs Rating", xData, yData);
+    chart.addSeries("Creatinine phosphokinase vs Serum sodium", xData, yData);
     new SwingWrapper<XYChart>(chart).displayChart();
 
 
@@ -226,9 +226,9 @@ public void print(double[][] SvR){{
 
 }
     public static void main(String[] args) {
-        ReadData r = new ReadData();
-        
+        ReadDataHeart r = new ReadDataHeart();
         r.scatter();
+        r.plotLSRL();
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
 
     }
