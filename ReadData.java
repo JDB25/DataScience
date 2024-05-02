@@ -114,28 +114,31 @@ public void plotLines(){
     new SwingWrapper(chart).displayChart();
 
 }
+
 public void plotLSRL(double[][] Data){
-double[] yData = new double[Data[1].length];
-double[] xData = new double[Data[1].length];
-for (int i = 0; i < Data[0].length; i++) {
+  XYChart chart = new XYChartBuilder().width(800).height(600).build();
+
+    // Customize Chart
+    chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
+    chart.getStyler().setChartTitleVisible(false);
+    chart.getStyler().setLegendPosition(LegendPosition.InsideSW);
+    
+double[] yData = new double[Data.length];
+double[] xData = new double[Data.length];
+for (int i = 0; i < Data.length; i++) {
   xData[i] = Data[i][0];
   yData[i] = Data[i][1];
   
 }
-XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
-XYSeries scatterSeries = chart.addSeries("xxxx", xData, yData);
+
+
+XYSeries scatterSeries = chart.addSeries("idk man", getRating(), getSugar());
 scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
-XYSeries linSeries = chart.addSeries("xxx",xData, yData);
-linSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
+XYSeries lineSeries = chart.addSeries("doe this work",xData, yData);
+lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
 new SwingWrapper<XYChart>(chart).displayChart();
-
-
-
-
-    
-    
-   
+chart.getStyler().setMarkerSize(10);
 
 }
 
@@ -218,7 +221,7 @@ new SwingWrapper<XYChart>(chart).displayChart();
         double A = avgData(yData)-(B*avgData(xData));
         System.out.println(A);
         System.out.println(B);
-      for (int i = 0; i < yData.length; i++) {
+      for (int i = 0; i < xData.length; i++) {
         xytemp[i][1] = (B * i) + A;
         xytemp[i][0]=i;
       }
@@ -246,8 +249,7 @@ new SwingWrapper<XYChart>(chart).displayChart();
 public void print(double[][] SvR){{
   for (int row = 0; row < SvR.length; row++) {
    
-      System.out.println(SvR[row][0] + " sugar and " + SvR[row][1] + " rating");
-    
+      System.out.println(SvR[row][0] + ", " + SvR[row][1]);
     
   }
 
@@ -256,7 +258,8 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-        r.scatter();
+        //r.scatter();
+        r.print(r.linear_regression(r.getRating(), r.getSugar()));
         r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
 
