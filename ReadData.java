@@ -115,19 +115,27 @@ public void plotLines(){
 
 }
 public void plotLSRL(double[][] Data){
-double[] yData;
-double[] xData;
-for (int i = 0; i < Data.length; i++) {
+double[] yData = new double[Data[1].length];
+double[] xData = new double[Data[1].length];
+for (int i = 0; i < Data[0].length; i++) {
   xData[i] = Data[i][0];
   yData[i] = Data[i][1];
   
 }
+XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
+XYSeries scatterSeries = chart.addSeries("xxxx", xData, yData);
+scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
+
+XYSeries linSeries = chart.addSeries("xxx",xData, yData);
+linSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
+new SwingWrapper<XYChart>(chart).displayChart();
 
 
 
-    double[] yData = linear_regression(getRating(), getSugar());
-    XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
-    new SwingWrapper(chart).displayChart();
+
+    
+    
+   
 
 }
 
@@ -143,7 +151,7 @@ for (int i = 0; i < Data.length; i++) {
       return temp/data.length;
     }
 
-    // + value --> direct relationship
+    // + value scatterSeries-> direct relationship
     // - value --> indirect relationship
     // 0 --> no relationship
     // Summation((x-xMean)(y-yMean))/(N-1)
@@ -165,25 +173,35 @@ for (int i = 0; i < Data.length; i++) {
         return 0.0;
     }
     
-
-    public void scatter_and_regression(double[] line_attr){
-    }
-
-    public double average(double[] data){
-        return 0.0;
-    }
+   
 
     public double stdDev(double[] data){
-      double value =0;
+      double value = 0.0;
       for (int i = 0; i < data.length; i++) {
-        value+=data[i]-avgData(data);
+        value+=(data[i]-avgData(data));
       }
-        return Math.sqrt(Math.pow(value, 2)/data.length);
+        return Math.sqrt((Math.pow(value, 2))/data.length);
     }
 
     // Covariance/(Std-x)(Std-y)
     public double correlation(double[] xData, double[] yData){
-      return covariance(xData, yData)/((stdDev(xData)*stdDev(yData)));
+      double numorator = 0.0;
+      double denom1 = 0.0;
+      double denom2 = 0.0;
+
+      for (int i = 0; i < xData.length; i++) {
+          numorator+=((xData[i]-avgData(xData))*(yData[i]-avgData(yData)));
+      }
+      for (int i = 0; i < xData.length; i++) {
+        denom1+=Math.pow(xData[i]-avgData(xData),2);  
+      }
+      for (int i = 0; i < yData.length; i++) {
+        denom2+=Math.pow(yData[i]-avgData(yData),2);  
+      }
+
+      
+      
+      return (numorator)/(Math.sqrt((denom1*denom2)));
 
     }
 
@@ -197,10 +215,11 @@ for (int i = 0; i < Data.length; i++) {
       xytemp = new double[yData.length][2];
       
       double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
-        double A = avgData(yData)-(B*average(xData));
+        double A = avgData(yData)-(B*avgData(xData));
         System.out.println(A);
+        System.out.println(B);
       for (int i = 0; i < yData.length; i++) {
-        xytemp[i][1] = B * i + A;
+        xytemp[i][1] = (B * i) + A;
         xytemp[i][0]=i;
       }
         return xytemp;
@@ -237,9 +256,8 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-        
         r.scatter();
-        r.plotLSRL();
+        r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
 
     }
