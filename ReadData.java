@@ -259,8 +259,9 @@ public void print(double[][] SvR){{
     public static void main(String[] args) {
         ReadData r = new ReadData();
         //r.scatter();
-        r.print(r.linear_regression(r.getRating(), r.getSugar()));
-        r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
+        r.stickChart();
+        //r.print(r.linear_regression(r.getRating(), r.getSugar()));
+        //r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
 
     }
