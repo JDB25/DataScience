@@ -132,10 +132,10 @@ for (int i = 0; i < Data.length; i++) {
 }
 
 
-XYSeries scatterSeries = chart.addSeries("idk man", getRating(), getSugar());
+XYSeries scatterSeries = chart.addSeries("Sugar vs Rating", getRating(), getSugar());
 scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
-XYSeries lineSeries = chart.addSeries("doe this work",xData, yData);
+XYSeries lineSeries = chart.addSeries("LSRL",xData, yData);
 lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
 new SwingWrapper<XYChart>(chart).displayChart();
 chart.getStyler().setMarkerSize(15);
