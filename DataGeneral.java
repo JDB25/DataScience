@@ -15,11 +15,11 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 
 public class DataGeneral {
 //Variables:
-public String fileName = "waterQuality1.csv";
-public int NumberofDatapoints = 7999;
-public int YColumnIndex = 6;
-public int XColumnIndex = 10;
-public String Charttitle = "Chlorine vs Bacteria";
+public String fileName = "cereal.csv";
+public int NumberofDatapoints = 77;
+public int YColumnIndex = 10;
+public int XColumnIndex = 16;
+public String Charttitle = "Sugar vs Rating";
 
 
 
@@ -42,8 +42,8 @@ public String Charttitle = "Chlorine vs Bacteria";
     public DataGeneral(){
       // new SwingWrapper<CategoryChart>(stickChart()).displayChart();
       scatter();
-      //plotLSRL(linear_regression(getRating(), getSugar()));
-      //covariance(getRating(), getSugar());
+      plotLSRL(linear_regression(getX(), getY()));
+      //covariance(getX(), getY());
     }
 
   
@@ -63,7 +63,7 @@ public String Charttitle = "Chlorine vs Bacteria";
               }
              
           
-             SvR[rowNum][0]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
+             SvR[rowNum][1]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
 
 
              
@@ -71,7 +71,10 @@ public String Charttitle = "Chlorine vs Bacteria";
               for(int i = 0; i<XColumnIndex-1; i++){
                 temp = temp.substring(temp.indexOf(",")+1);
               }
-             SvR[rowNum][1]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
+              if(temp.indexOf(",")==-1){
+                temp = temp+",";
+              }
+             SvR[rowNum][0]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
 
           
              
@@ -95,32 +98,32 @@ public String Charttitle = "Chlorine vs Bacteria";
 public void run(){
       new SwingWrapper<CategoryChart>(stickChart()).displayChart();
       scatter();
-      plotLSRL(linear_regression(getRating(), getSugar()));
-      covariance(getRating(), getSugar());
+      plotLSRL(linear_regression(getX(), getY()));
+      covariance(getX(), getY());
        
 
 }
 
 
 
-        public double[] getSugar(){
-          double[] sugar = new double[NumberofDatapoints];
+  public double[] getY(){
+          double[] Y = new double[NumberofDatapoints];
           double[][] main = format();
           
           for (int index = 0; index < main.length; index++) {
-            sugar[index] = main[index][0];
+            Y[index] = main[index][1];
           }
-          return sugar;
+          return Y;
 
         }
-public double[] getRating(){
-          double[] rating = new double[NumberofDatapoints];
+public double[] getX(){
+          double[] X = new double[NumberofDatapoints];
           double[][] main = format();
           
           for (int index = 0; index < main.length; index++) {
-            rating[index] = main[index][1];
+            X[index] = main[index][0];
           }
-          return rating;
+          return X;
 
         }
 public void scatter(){
@@ -134,8 +137,8 @@ public void scatter(){
 
     // Series
 
-    double[] xData = getRating();
-    double[] yData = getSugar();
+    double[] xData = getX();
+    double[] yData = getY();
     
     chart.addSeries("Sugar Vs Rating", xData, yData);
     new SwingWrapper<XYChart>(chart).displayChart();
@@ -148,8 +151,8 @@ public void scatter(){
 }
 
 public void plotLines(){
-  double[] xData = getRating();
-    double[] yData = getSugar();
+  double[] xData = getX();
+    double[] yData = getY();
     XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
     new SwingWrapper(chart).displayChart();
 
@@ -172,13 +175,13 @@ for (int i = 0; i < Data.length; i++) {
 }
 
 
-XYSeries scatterSeries = chart.addSeries(Charttitle, getRating(), getSugar());
+XYSeries scatterSeries = chart.addSeries(Charttitle, getX(), getY());
 scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
 XYSeries lineSeries = chart.addSeries("LSRL",xData, yData);
 lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
 new SwingWrapper<XYChart>(chart).displayChart();
-chart.getStyler().setMarkerSize(1);
+chart.getStyler().setMarkerSize(20);
 
 }
 
@@ -289,8 +292,8 @@ chart.getStyler().setMarkerSize(1);
     chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
     chart.getStyler().setDefaultSeriesRenderStyle(CategorySeriesRenderStyle.Stick);
 
-       double[] xData = getRating();
-    double[] yData = getSugar();
+       double[] xData = getX();
+    double[] yData = getY();
     
     
     chart.addSeries("Sugar vs Rating", xData, yData);
@@ -314,8 +317,8 @@ public void print(double[][] SvR){{
        
         // r.scatter();
         // r.stickChart();
-        // r.print(r.linear_regression(r.getRating(), r.getSugar()));
-        // r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
+        // r.print(r.linear_regression(r.getX(), r.getY()));
+        // r.plotLSRL(r.linear_regression(r.getX(), r.getY()));
         // new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
       
 
