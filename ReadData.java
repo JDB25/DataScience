@@ -138,7 +138,7 @@ scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 XYSeries lineSeries = chart.addSeries("doe this work",xData, yData);
 lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
 new SwingWrapper<XYChart>(chart).displayChart();
-chart.getStyler().setMarkerSize(10);
+chart.getStyler().setMarkerSize(15);
 
 }
 
@@ -169,12 +169,26 @@ chart.getStyler().setMarkerSize(10);
     
     
     public double getMin(double[] data){
-        return 0.0;
+        double min = data[0];
+    for (int i = 0; i < data.length; i++) {
+          if (data[i]<min){
+            min = data[i];
+          }
+        }
+    
+    return min;
     }
 
     public double getMax(double[] data){
-        return 0.0;
-    }
+      double max = data[0];
+      for (int i = 0; i < data.length; i++) {
+            if (data[i]>max){
+              max = data[i];
+            }
+          }
+      
+      return max;
+      }
     
    
 
@@ -215,18 +229,23 @@ chart.getStyler().setMarkerSize(10);
     public double[][] linear_regression(double[] xData, double[] yData){
       double[][] xytemp;
       
-      xytemp = new double[yData.length][2];
-      
+      xytemp = new double[(int)(getMax(xData)-getMin(xData))][2];
+      System.out.println(xData.length);
       double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
         double A = avgData(yData)-(B*avgData(xData));
         System.out.println(A);
         System.out.println(B);
-      for (int i = 0; i < xData.length; i++) {
-        xytemp[i][1] = (B * i) + A;
-        xytemp[i][0]=i;
+        
+      for (int i = (int)getMin(xData); i < (int)getMax(xData); i++) {
+        xytemp[i-(int)getMin(xData)][1] = (B * i) + A;
+        xytemp[i-(int)getMin(xData)][0]=i;
       }
+      
+      
+      
         return xytemp;
     }
+
   public CategoryChart stickChart(){
     CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Stick").build();
     chart.getStyler().setChartTitleVisible(true);

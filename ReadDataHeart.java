@@ -112,15 +112,33 @@ public void plotLines(){
     new SwingWrapper(chart).displayChart();
 
 }
-public void plotLSRL(){
-  double[] xData = fubChart(getRating());
-    double[] yData = linear_regression(getRating(), getSugar());
-    XYChart chart = QuickChart.getChart("Sugar vs Rating", "Rating", "Sugar", "y(x)", xData, yData);
-    new SwingWrapper(chart).displayChart();
+public void plotLSRL(double[][] Data){
+  XYChart chart = new XYChartBuilder().width(800).height(600).build();
 
+    // Customize Chart
+    chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
+    chart.getStyler().setChartTitleVisible(false);
+    chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
+    
+double[] yData = new double[Data.length];
+double[] xData = new double[Data.length];
+for (int i = 0; i < Data.length; i++) {
+  xData[i] = Data[i][0];
+  yData[i] = Data[i][1];
+  
 }
 
-    public double avgData(double[] data){
+
+XYSeries scatterSeries = chart.addSeries("idk man", getRating(), getSugar());
+scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
+
+XYSeries lineSeries = chart.addSeries("doe this work",xData, yData);
+lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
+new SwingWrapper<XYChart>(chart).displayChart();
+chart.getStyler().setMarkerSize(10);
+
+}
+public double avgData(double[] data){
       double temp=0;
       
       for (int i = 0; i < data.length; i++) {
@@ -131,7 +149,6 @@ public void plotLSRL(){
 
       return temp/data.length;
     }
-
     // + value --> direct relationship
     // - value --> indirect relationship
     // 0 --> no relationship
@@ -146,55 +163,84 @@ public void plotLSRL(){
     }
     
     
-    public double getMin(double[] data){
-        return 0.0;
-    }
 
-    public double getMax(double[] data){
-        return 0.0;
-    }
+   
+
     
 
-    public void scatter_and_regression(double[] line_attr){
-    }
-
-    public double average(double[] data){
-        return 0.0;
-    }
-
-    public double stdDev(double[] data){
-      double value =0;
+   public double stdDev(double[] data){
+      double value = 0.0;
       for (int i = 0; i < data.length; i++) {
-        value+=data[i]-avgData(data);
+        value+=(data[i]-avgData(data));
       }
-        return Math.sqrt(Math.pow(value, 2)/data.length);
+        return Math.sqrt((Math.pow(value, 2))/data.length);
     }
 
     // Covariance/(Std-x)(Std-y)
     public double correlation(double[] xData, double[] yData){
-      return covariance(xData, yData)/((stdDev(xData)*stdDev(yData)));
+      double numorator = 0.0;
+      double denom1 = 0.0;
+      double denom2 = 0.0;
 
-    }
-
-public double[] fubChart(double[] yData){
-  double[] fub = new double[yData.length];
-  for (int i = 0; i < fub.length; i++) {
-    fub[i]=i;
-    
-  }
-  return fub;
-}
-
-    public double[] linear_regression(double[] xData, double[] yData){
-      double[] temp;
-      temp = new double[yData.length];
-      for (int i = 0; i < yData.length; i++) {
-        double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
-        double A = avgData(yData)-(B*average(xData));
-        temp[i] = B * i + A;
+      for (int i = 0; i < xData.length; i++) {
+          numorator+=((xData[i]-avgData(xData))*(yData[i]-avgData(yData)));
       }
-        return temp;
+      for (int i = 0; i < xData.length; i++) {
+        denom1+=Math.pow(xData[i]-avgData(xData),2);  
+      }
+      for (int i = 0; i < yData.length; i++) {
+        denom2+=Math.pow(yData[i]-avgData(yData),2);  
+      }
+
+      
+      
+      return (numorator)/(Math.sqrt((denom1*denom2)));
+
     }
+
+
+    public double[][] linear_regression(double[] xData, double[] yData){
+      double[][] xytemp;
+      
+      xytemp = new double[(int)(getMax(xData)-getMin(xData))][2];
+      System.out.println(xData.length);
+      double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
+        double A = avgData(yData)-(B*avgData(xData));
+        System.out.println(A);
+        System.out.println(B);
+        
+      for (int i = (int)getMin(xData); i < (int)getMax(xData); i++) {
+        xytemp[i-(int)getMin(xData)][1] = (B * i) + A;
+        xytemp[i-(int)getMin(xData)][0]=i;
+      }
+      
+      
+      
+        return xytemp;
+    }
+
+  public double getMin(double[] data){
+        double min = data[0];
+    for (int i = 0; i < data.length; i++) {
+          if (data[i]<min){
+            min = data[i];
+          }
+        }
+    
+    return min;
+    }
+
+    public double getMax(double[] data){
+      double max = data[0];
+      for (int i = 0; i < data.length; i++) {
+            if (data[i]>max){
+              max = data[i];
+            }
+          }
+      
+      return max;
+      }
+
   public CategoryChart stickChart(){
     CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Stick").build();
     chart.getStyler().setChartTitleVisible(true);
@@ -228,7 +274,7 @@ public void print(double[][] SvR){{
     public static void main(String[] args) {
         ReadDataHeart r = new ReadDataHeart();
         r.scatter();
-        r.plotLSRL();
+         r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
 
     }
