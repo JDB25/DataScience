@@ -19,6 +19,7 @@ public String fileName = "waterQuality1.csv";
 public int NumberofDatapoints = 7999;
 public int YColumnIndex = 6;
 public int XColumnIndex = 10;
+public String Charttitle = "Chlorine vs Bacteria";
 
 
 
@@ -39,8 +40,8 @@ public int XColumnIndex = 10;
 
 
     public DataGeneral(){
-      new SwingWrapper<CategoryChart>(stickChart()).displayChart();
-      scatter();
+      // new SwingWrapper<CategoryChart>(stickChart()).displayChart();
+      // scatter();
       plotLSRL(linear_regression(getRating(), getSugar()));
       covariance(getRating(), getSugar());
     }
@@ -171,13 +172,13 @@ for (int i = 0; i < Data.length; i++) {
 }
 
 
-XYSeries scatterSeries = chart.addSeries("Sugar vs Rating", getRating(), getSugar());
+XYSeries scatterSeries = chart.addSeries(Charttitle, getRating(), getSugar());
 scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
 XYSeries lineSeries = chart.addSeries("LSRL",xData, yData);
 lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
 new SwingWrapper<XYChart>(chart).displayChart();
-chart.getStyler().setMarkerSize(15);
+chart.getStyler().setMarkerSize(1);
 
 }
 
