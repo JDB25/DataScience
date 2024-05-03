@@ -12,42 +12,74 @@ import org.knowm.xchart.CategorySeries.CategorySeriesRenderStyle;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
- // Import the Scanner class to read text files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public class ReadData {
-    public ReadData(){}
+//Variables:
+public String fileName = "cereal.csv";
+public int NumberofDatapoints = 77;
+public int YColumnIndex = 10;
+public int XColumnIndex = 16;
+
+
+
+
+
+
+
+
+
+    public ReadData(){
+      new SwingWrapper<CategoryChart>(stickChart()).displayChart();
+      scatter();
+      plotLSRL(linear_regression(getRating(), getSugar()));
+      covariance(getRating(), getSugar());
+    }
 
   
     public double[][] format(){
-      double[][] SvR = new double[77][2];
+      double[][] SvR = new double[NumberofDatapoints][2];
       int rowNum = 0;
       String temp = "";
 
         try {
-            File myObj = new File("cereal.csv");
+            File myObj = new File(fileName);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
               String data = myReader.nextLine();
               temp = data;
-              for(int i = 0; i<9; i++){
+              for(int i = 0; i<YColumnIndex-1; i++){
                 temp = temp.substring(temp.indexOf(",")+1);
               }
-              // System.out.println(temp.substring(0, temp.indexOf(",")));
+             
           
              SvR[rowNum][0]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
 
 
              
               temp = data;
-              for(int i = 0; i<15; i++){
+              for(int i = 0; i<XColumnIndex-1; i++){
                 temp = temp.substring(temp.indexOf(",")+1);
               }
              SvR[rowNum][1]=Double.parseDouble(temp);
 
-             //i\from index of 9th comma to index opfr 10th comma
+          
              
             rowNum++;
-             
-              //System.out.println(data);
+            
             }
             myReader.close();
           } catch (FileNotFoundException e) {
@@ -288,7 +320,7 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-         r.run();
+       
         // r.scatter();
         // r.stickChart();
         // r.print(r.linear_regression(r.getRating(), r.getSugar()));
