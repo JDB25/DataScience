@@ -13,12 +13,12 @@ import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 
-public class ReadData {
+public class DataGeneral {
 //Variables:
-public String fileName = "cereal.csv";
-public int NumberofDatapoints = 77;
-public int YColumnIndex = 10;
-public int XColumnIndex = 16;
+public String fileName = "waterQuality1.csv";
+public int NumberofDatapoints = 7999;
+public int YColumnIndex = 6;
+public int XColumnIndex = 10;
 
 
 
@@ -38,7 +38,7 @@ public int XColumnIndex = 16;
 
 
 
-    public ReadData(){
+    public DataGeneral(){
       new SwingWrapper<CategoryChart>(stickChart()).displayChart();
       scatter();
       plotLSRL(linear_regression(getRating(), getSugar()));
@@ -70,7 +70,7 @@ public int XColumnIndex = 16;
               for(int i = 0; i<XColumnIndex-1; i++){
                 temp = temp.substring(temp.indexOf(",")+1);
               }
-             SvR[rowNum][1]=Double.parseDouble(temp);
+             SvR[rowNum][1]=Double.parseDouble(temp.substring(0,temp.indexOf(",")));
 
           
              
@@ -103,7 +103,7 @@ public void run(){
 
 
         public double[] getSugar(){
-          double[] sugar = new double[77];
+          double[] sugar = new double[NumberofDatapoints];
           double[][] main = format();
           
           for (int index = 0; index < main.length; index++) {
@@ -113,7 +113,7 @@ public void run(){
 
         }
 public double[] getRating(){
-          double[] rating = new double[77];
+          double[] rating = new double[NumberofDatapoints];
           double[][] main = format();
           
           for (int index = 0; index < main.length; index++) {
@@ -309,7 +309,7 @@ public void print(double[][] SvR){{
 
 }
     public static void main(String[] args) {
-        ReadData r = new ReadData();
+        DataGeneral D = new DataGeneral();
        
         // r.scatter();
         // r.stickChart();
