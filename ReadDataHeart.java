@@ -158,7 +158,7 @@ public double avgData(double[] data){
        for (int i = 0; i < yData.length; i++) {
         summation+=((xData[i]-avgData(xData))*(yData[i]-avgData(yData)));}
       
-      
+      System.out.println("Covariance: " + summation/(xData.length-1));
       return summation/(xData.length-1);
     }
     
@@ -193,7 +193,7 @@ public double avgData(double[] data){
       }
 
       
-      System.out.println("aaaaaa" + (numorator)/(Math.sqrt((denom1*denom2))));
+      System.out.println("Correlation: " + (numorator)/(Math.sqrt((denom1*denom2))));
       return (numorator)/(Math.sqrt((denom1*denom2)));
 
     }
@@ -276,6 +276,7 @@ public void print(double[][] SvR){{
         r.scatter();
          r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
         //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
+        r.covariance(r.getRating(), r.getSugar());
 
     }
 }

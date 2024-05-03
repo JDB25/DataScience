@@ -63,7 +63,18 @@ public class ReadData {
         //
         return SvR;
         }
-public double[] getSugar(){
+public void run(){
+      new SwingWrapper<CategoryChart>(stickChart()).displayChart();
+      scatter();
+      plotLSRL(linear_regression(getRating(), getSugar()));
+      covariance(getRating(), getSugar());
+       
+
+}
+
+
+
+        public double[] getSugar(){
           double[] sugar = new double[77];
           double[][] main = format();
           
@@ -121,7 +132,7 @@ public void plotLSRL(double[][] Data){
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
     chart.getStyler().setChartTitleVisible(false);
-    chart.getStyler().setLegendPosition(LegendPosition.InsideSW);
+    chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
     
 double[] yData = new double[Data.length];
 double[] xData = new double[Data.length];
@@ -163,7 +174,7 @@ chart.getStyler().setMarkerSize(15);
        for (int i = 0; i < yData.length; i++) {
         summation+=((xData[i]-avgData(xData))*(yData[i]-avgData(yData)));}
       
-      
+      System.out.println("Covariance: " + summation/(xData.length-1));
       return summation/(xData.length-1);
     }
     
@@ -217,7 +228,7 @@ chart.getStyler().setMarkerSize(15);
       }
 
       
-      
+      System.out.println("Correlation: "+(numorator)/(Math.sqrt((denom1*denom2))));
       return (numorator)/(Math.sqrt((denom1*denom2)));
 
     }
@@ -230,11 +241,11 @@ chart.getStyler().setMarkerSize(15);
       double[][] xytemp;
       
       xytemp = new double[(int)(getMax(xData)-getMin(xData))][2];
-      System.out.println(xData.length);
+   
       double B = correlation(xData, yData)*(stdDev(yData)/stdDev(xData));
         double A = avgData(yData)-(B*avgData(xData));
-        System.out.println(A);
-        System.out.println(B);
+        // System.out.println(A);
+        // System.out.println(B);
         
       for (int i = (int)getMin(xData); i < (int)getMax(xData); i++) {
         xytemp[i-(int)getMin(xData)][1] = (B * i) + A;
@@ -277,12 +288,13 @@ public void print(double[][] SvR){{
 }
     public static void main(String[] args) {
         ReadData r = new ReadData();
-         
-        r.scatter();
-        r.stickChart();
-        //r.print(r.linear_regression(r.getRating(), r.getSugar()));
-        r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
-        //new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
+         r.run();
+        // r.scatter();
+        // r.stickChart();
+        // r.print(r.linear_regression(r.getRating(), r.getSugar()));
+        // r.plotLSRL(r.linear_regression(r.getRating(), r.getSugar()));
+        // new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
+      
 
     }
 }
