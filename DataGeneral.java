@@ -41,9 +41,9 @@ public String Charttitle = "Chlorine vs Bacteria";
 
     public DataGeneral(){
       // new SwingWrapper<CategoryChart>(stickChart()).displayChart();
-      // scatter();
-      plotLSRL(linear_regression(getRating(), getSugar()));
-      covariance(getRating(), getSugar());
+      scatter();
+      //plotLSRL(linear_regression(getRating(), getSugar()));
+      //covariance(getRating(), getSugar());
     }
 
   
@@ -130,7 +130,7 @@ public void scatter(){
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
     chart.getStyler().setChartTitleVisible(false);
     chart.getStyler().setLegendPosition(LegendPosition.InsideSW);
-    chart.getStyler().setMarkerSize(16);
+    chart.getStyler().setMarkerSize(8);
 
     // Series
 
