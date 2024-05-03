@@ -15,11 +15,29 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 
 public class DataGeneral {
 //Variables:
+//Cereal settings:
 public String fileName = "cereal.csv";
 public int NumberofDatapoints = 77;
 public int YColumnIndex = 10;
 public int XColumnIndex = 16;
 public String Charttitle = "Sugar vs Rating";
+
+//Water quality settings:
+// public String fileName = "waterQuality1.csv";
+// public int NumberofDatapoints = 7999;
+// public int YColumnIndex = 6;
+// public int XColumnIndex = 10;
+// public String Charttitle = "Chlorine vs Bacteria";
+
+//Heart settings:
+// public String fileName = "heart_failure_clinical_records_dataset.csv";
+// public int NumberofDatapoints = 299;
+// public int YColumnIndex = 3;
+// public int XColumnIndex = 9;
+// public String Charttitle = "Creatinine phosphokinase vs Serum sodium";
+
+
+
 
 
 
@@ -181,7 +199,7 @@ scatterSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 XYSeries lineSeries = chart.addSeries("LSRL",xData, yData);
 lineSeries.setXYSeriesRenderStyle(XYSeriesRenderStyle.Line);
 new SwingWrapper<XYChart>(chart).displayChart();
-chart.getStyler().setMarkerSize(20);
+chart.getStyler().setMarkerSize(10);
 
 }
 
