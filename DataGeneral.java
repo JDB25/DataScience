@@ -58,7 +58,7 @@ public String Charttitle = "Sugar vs Rating";
 
 
     public DataGeneral(){
-      // new SwingWrapper<CategoryChart>(stickChart()).displayChart();
+      new SwingWrapper<CategoryChart>(stickChart()).displayChart();
       scatter();
       plotLSRL(linear_regression(getX(), getY()));
       //covariance(getX(), getY());
@@ -330,12 +330,16 @@ public void print(double[][] SvR){{
 }
 
 }
+
+
     public static void main(String[] args) {
+    
+     
         DataGeneral D = new DataGeneral();
-       
+      
         // r.scatter();
         // r.stickChart();
-        // r.print(r.linear_regression(r.getX(), r.getY()));
+        // r.print(r.linear_regrellssion(r.getX(), r.getY()));
         // r.plotLSRL(r.linear_regression(r.getX(), r.getY()));
         // new SwingWrapper<CategoryChart>(r.stickChart()).displayChart();
       
